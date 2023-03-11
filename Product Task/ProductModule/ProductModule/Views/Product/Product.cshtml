@@ -1,0 +1,502 @@
+﻿@{
+    ViewBag.Title = "Product";
+    Layout = "~/Views/Shared/_LayoutProduct.cshtml";
+}
+
+@section scripts{
+@Scripts.Render("~/bundles/jquery")
+ @Scripts.Render("~/bundles/bootstrapjs")
+ 
+<script src="../../Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+   <script src="../../Scripts/jquery.table2excel.min.js" type="text/javascript"></script>
+  
+<script type="text/javascript">
+
+    SaveProduct();
+    ItemDtls();
+    ExcelUpload();
+    ExportToExcel();
+
+    $('#ItemName').keypress(function (e) {
+
+        var regex = new RegExp("^[a-zA-Z\\s]+$");
+
+        var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+
+        if (regex.test(str)) {
+
+            return true;
+
+        }
+
+
+
+        e.preventDefault();
+
+        return false;
+
+    });
+
+
+    $("#Quantity").keypress(function (e) {
+
+        
+
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+
+            
+
+            $("#errmsg").html("Digits Only").show().fadeOut("slow");
+
+            return false;
+
+        }
+
+    });
+
+    $("#Price").on("keyup", function () {
+        var valid = /^\d{0,4}(\.\d{0,2})?$/.test(this.value),
+        val = this.value;
+
+        if (!valid) {
+            console.log("Invalid input!");
+            this.value = val.substring(0, val.length - 1);
+        }
+    });
+
+    $("#Tax").keypress(function (e) {
+
+
+
+        if (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57)) {
+
+
+
+            $("#errmsg1").html("Digits Only").show().fadeOut("slow");
+
+            return false;
+
+        }
+
+    });
+
+    $('.Save').click(function () {
+        if (!$.trim($('#ItemName').val())) {
+            alert("Value can't be empty");
+        }
+    });
+
+ </script>
+}
+
+<style>
+.tableFixHead          { overflow: auto; height: 250px; }
+.tableFixHead thead th { position: sticky; top: 0; z-index: 1; }
+
+/* Just common table stuff. Really. */
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }
+#errmsg
+
+{
+
+color: red;
+
+}
+
+#errmsg1
+{
+
+color: red;
+
+}
+</style>
+
+@*<link rel="stylesheet" type="text/css" href="../../Content/datatables.min.css" />
+*@
+ @Styles.Render("~/Content/bootstrapcss")
+
+  <div class="form-row">
+  <div class="form-group col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <label for="inputProductName">Item Name</label>
+       @Html.TextBox("ItemName", "", new { @class = "form-control", placeholder = "ItemName" })
+     
+    </div>
+   
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputDes">Description</label>
+     @Html.TextArea("Description", "", new { @class = "form-control", placeholder = "Description" })
+   
+  </div>
+  <div class="form-group">
+    <label for="inputPrice">Price</label>
+    @Html.TextBox("Price", "", new { @class = "form-control", placeholder = "Price" })
+    
+  </div>
+  <div class="form-row">
+    <div class="form-group col-lg-6 col-md-6 col-sm-6 col-xs-6">
+      <label for="inputQuantity">Quantity</label>
+       @Html.TextBox("Quantity", "", new { @class = "form-control", placeholder = "Quantity" })
+    &nbsp;<span id="errmsg"></span>
+    </div>
+    <div class="form-group col-lg-4 col-md-4 col-sm-4 col-xs-4">
+      <label for="inputTax">Tax</label>
+      @Html.TextBox("Tax", "", new { @class = "form-control", placeholder = "Tax" })
+     &nbsp;<span id="errmsg1"></span>
+    </div>
+   
+  </div>
+  <div class = "col-md-12">
+                
+               
+                
+                <div class="form-group col-md-4">
+                <button type="button" class="btn btn-info pull-left Save" >Save</button>
+                </div>
+                
+                 <div class="form-group col-md-4" style="padding-left: 104px;">
+                 <input type="file" name="file" id="exclupload"/>
+                  <input type="button" value="Upload" class="excelbtn"/>
+                   </div>
+                   <div class="form-group col-md-2" style="padding-top: 10px;">
+                 </div>
+                <div class="form-group col-md-2">
+                <button id="export">Export</button>
+                 </div>
+               </div>
+ 
+
+ <div class="col-md-12">
+ <div class="col-md-6 tableFixHead" >
+ <table id="product_id">
+ 
+    
+</table>
+</div>
+ </div>
+
+<script type="text/javascript">
+
+
+    function SaveProduct() {
+
+
+        $(document).ready(function () {
+
+            $(".Save").click(function () {
+                debugger;
+
+                var ItemName = $("#ItemName").val();
+                var Description = $("#Description").val();
+                var Price = parseFloat($("#Price").val()).toFixed(2);
+
+                var Quantity = $("#Quantity").val();
+                var Tax = $("#Tax").val();
+                var Status = 0;
+                $.ajax({
+
+                    url: "/Product/SaveProduct",
+
+                    type: "POST",
+
+                    asyn: false,
+
+                    data: { ItemName: ItemName, Description: Description, Price: Price, Quantity: Quantity, Tax: Tax, Status: Status },
+
+                    dataType: "json",
+
+                    responseType: 'arraybuffer',
+
+                    success: function (Data) {
+
+                                                if (Data == 'Successfuly Saved') {
+
+                                                    alert("Saved Successfully");
+                                                    $("#ItemName").val('');
+
+                                                    $("#Description").val('');
+                                                    $("#Price").val('');
+                                                    $("#Quantity").val('');
+                                                    $("#Tax").val('');
+
+                                                    ItemDtls();
+                                                } else {
+
+                                                    alert("Failed to Save");
+                                                }
+                       
+
+                    }
+                });
+
+            });
+        });
+
+    }
+
+
+
+
+
+    function ItemDtls() {
+        debugger;
+
+
+        $.post("/Product/ProductDetails", function (Result) {
+
+
+            var sum = 0;
+            var totalsum = 0;
+            var count = 0;
+            var ItemDtls = '';
+            ItemDtls = '<thead><tr><th>SL NO</th><th>Item Name</th><th>Description</th><th>Price</th><th>Quantity</th><th>Tax</th><th>Total</th><th class="noExl"></th><th class="noExl"></th><th class="noExl"></th><th style="display:none" class="noExl"></th> </thead>'
+
+            $.each(Result, function (index, List) {
+                count++;
+                var TotPrice = List.Price * List.Quantity;
+                var Tax = List.Tax;
+                sum = TotPrice + Tax;
+
+                ItemDtls += '<tr class="product_row"><td class="Item_Id">' + count + '</td><td class="Item_Name"><input type="text" value="' + List.ItemName + '" class ="readonlytextbox" disabled/></td><td class="Descriptions"><input type="text" value="' + List.Descriptions + '" class ="readonlytextbox" disabled/></td><td class="Price"><input type="text" value=' + List.Price + ' class ="readonlytextbox" disabled/></td><td class="Qty"><input type="text" value=' + List.Quantity + ' class ="readonlytextbox" disabled/></td><td class="tax"><input type="text" value=' + List.Tax + ' class ="readonlytextbox" disabled/></td><td class="sum">' + sum + '</td><td class="noExl"><input type="button" value="Edit" class="EditBtn"></td><td style="display:none" class="savetd noExl"><input type="button" value="Save" class="Save"></td><td class="noExl"><input type="button" value="Delete" class ="Deletetd" ></td><td class="noExl"></td><td class="Item_Id noExl" style="display:none">' + List.ItemId + '</td></tr>';
+                totalsum += parseFloat(sum);
+            });
+
+            $("#product_id").html(ItemDtls);
+            $("#product_id tr:last").after('<tr><td colspan="7" style="padding-left: 1283px;">Total:' + totalsum + ' </td></tr>');
+            var ItemName = "";
+            var Descriptions = "";
+            var Price = "";
+            var Quantity = "";
+            var Tax = "";
+            $(".EditBtn").click(function () {
+
+                $(".EditBtn").hide();
+                var current = $(this).closest('tr');
+                $('.readonlytextbox', current).attr('disabled', false);
+                ItemName = current.children('td:eq(1)').text();
+                Descriptions = current.children('td:eq(2)').text();
+                Price = current.children('td:eq(3)').text();
+                Quantity = current.children('td:eq(4)').text();
+                Tax = current.children('td:eq(5)').text();
+                $('.savetd').css("display", "");
+
+            });
+
+
+            $(".Save").click(function () {
+
+
+                var currentRow = $(this).closest('tr');
+                var ItemId = currentRow.children('td:eq(11)').text();
+                var ItemName = currentRow.find('td:eq(1) input').val();
+                var Descriptions = currentRow.find('td:eq(2) input').val();
+                var Price = currentRow.find('td:eq(3) input').val();
+                var Quantity = currentRow.find('td:eq(4) input').val();
+                var Tax = currentRow.find('td:eq(5) input').val();
+
+
+                $.post("/Product/UpdateProduct", $.param([{ name: "ItemId", value: ItemId }, { name: "ItemName", value: ItemName }, { name: "Descriptions", value: Descriptions }, { name: "Price", value: Price }, { name: "Quantity", value: Quantity }, { name: "Tax", value: Tax}]), function (Result) {
+
+                    if (Result == 'Updated Successfully') {
+
+                        alert("Updated Successfully");
+                        ProductDtl();
+
+                    } else {
+
+                        alert("Updated Failed");
+                    }
+
+                });
+
+
+
+
+            });
+            //-------------------------------------------
+
+            $(".Deletetd").click(function () {
+
+
+                var current = $(this).closest('tr');
+                var Pid = current.children('td:eq(11)').text();
+
+                $.post("/Product/DeleteProduct", $.param([{ name: "Pid", value: Pid}]), function (Data) {
+
+                    if (confirm("Do you want to Delete?")) {
+
+                        if (Data = 'Deleted Successfully') {
+
+                            alert("Deleted Successfully");
+                            ProductDtl();
+                        } else {
+
+                            alert("Deleted Failed");
+                        }
+                    }
+
+                }); //post
+            }); //cLICK
+
+
+        });
+
+
+    }
+    function ExcelUpload() {
+        $(document).ready(function () {
+            $(".excelbtn").click(function () {
+
+
+                var file = $('#exclupload')[0].files[0];
+                var formData = new FormData();
+                formData.append('file', file);
+
+                $.ajax({
+                    url: '/Product/ExcelUpload',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    async: false,
+                    success: function (response) {
+
+                        if (response = 'Uploaded successfully') {
+                            alert("Uploaded Successfully");
+                            ProductDtl();
+                        }
+                    }
+                });
+            });
+        });
+    }
+
+
+
+    function ProductDtl() {
+        debugger;
+
+        $.post("/Product/ProductDetails", function (Result) {
+
+
+            var sum = 0;
+            var totalsum = 0;
+            var ItemDtls = '';
+            var count = 0;
+            ItemDtls = '<thead><tr><th>SL NO</th><th>Item Name</th><th>Description</th><th>Price</th><th>Quantity</th><th>Tax</th><th>Total</th><th class="noExl"></th><th class="noExl"></th><th class="noExl"></th><th style="display:none" class="noExl"> </thead>'
+
+            $.each(Result, function (index, List) {
+                count++;
+                var TotPrice = List.Price * List.Quantity;
+                var Tax = List.Tax;
+                sum = TotPrice + Tax;
+
+                ItemDtls += '<tr class="product_row"><td class="Item_Id">' + count + '</td><td class="Item_Name"><input type="text" value="' + List.ItemName + '" class ="readonlytextbox" disabled/></td><td class="Descriptions"><input type="text" value="' + List.Descriptions + '" class ="readonlytextbox" disabled/></td><td class="Price"><input type="text" value=' + List.Price + ' class ="readonlytextbox" disabled/></td><td class="Qty"><input type="text" value=' + List.Quantity + ' class ="readonlytextbox" disabled/></td><td class="tax"><input type="text" value=' + List.Tax + ' class ="readonlytextbox" disabled/></td><td class="sum">' + sum + '</td><td class="noExl"><input type="button" value="Edit" class="EditBtn"></td><td style="display:none" class="savetd noExl"><input type="button" value="Save" class="Save"></td><td class="noExl"><input type="button" value="Delete"class ="Deletetd" ></td><td class="noExl"></td><td class="Item_Id noExl" style="display:none">' + List.ItemId + '</td></tr>';
+                totalsum += parseFloat(sum);
+            });
+
+            $("#product_id").html(ItemDtls);
+            $("#product_id tr:last").after('<tr><td colspan="7" style="padding-left: 1283px;">Total:' + totalsum + ' </td></tr>');
+
+            var ItemName = "";
+            var Descriptions = "";
+            var Price = "";
+            var Quantity = "";
+            var Tax = "";
+            $(".EditBtn").click(function () {
+
+                $(".EditBtn").hide();
+                var current = $(this).closest('tr');
+                $('.readonlytextbox', current).attr('disabled', false);
+                ItemName = current.children('td:eq(1)').text();
+                Descriptions = current.children('td:eq(2)').text();
+                Price = current.children('td:eq(3)').text();
+                Quantity = current.children('td:eq(4)').text();
+                Tax = current.children('td:eq(5)').text();
+                $('.savetd').css("display", "");
+
+            });
+
+
+            $(".Save").click(function () {
+
+
+                var currentRow = $(this).closest('tr');
+                var ItemId = currentRow.children('td:eq(11)').text();
+                var ItemName = currentRow.find('td:eq(1) input').val();
+                var Descriptions = currentRow.find('td:eq(2) input').val();
+                var Price = currentRow.find('td:eq(3) input').val();
+                var Quantity = currentRow.find('td:eq(4) input').val();
+                var Tax = currentRow.find('td:eq(5) input').val();
+
+
+                $.post("/Product/UpdateProduct", $.param([{ name: "ItemId", value: ItemId }, { name: "ItemName", value: ItemName }, { name: "Descriptions", value: Descriptions }, { name: "Price", value: Price }, { name: "Quantity", value: Quantity }, { name: "Tax", value: Tax}]), function (Result) {
+
+                    if (Result == 'Updated Successfully') {
+
+                        alert("Updated Successfully");
+                        ProductDtl();
+
+                    } else {
+
+                        alert("Updated Failed");
+                    }
+
+                });
+
+
+
+
+            });
+            //-------------------------------------------
+
+            $(".Deletetd").click(function () {
+
+
+                var current = $(this).closest('tr');
+                var Pid = current.children('td:eq(11)').text();
+
+                $.post("/Product/DeleteProduct", $.param([{ name: "Pid", value: Pid}]), function (Data) {
+
+                    if (confirm("Do you want to Delete?")) {
+
+                        if (Data = 'Deleted Successfully') {
+
+                            alert("Deleted Successfully");
+                            ProductDtl();
+                        } else {
+
+                            alert("Deleted Failed");
+                        }
+                    }
+
+                }); //post
+            }); //cLICK
+        });
+    }
+    function ExportToExcel() {
+    $(document).ready(function() {
+    $('#export').on('click', function(e){
+        $("#product_id").table2excel({
+            exclude:".noExl",
+            name:"Worksheet Name",
+            filename:"SomeFile",//do not include extension
+            fileext:".xls" // file extension
+
+        });
+    });
+});
+}
+
+//$(document).ready(function () {
+//    $('.Save').click(function () {
+//        if (!$.trim($('#ItemName').val())) {
+//            alert("textbox value can't be empty");
+//        }
+//    });
+//});
+</script>

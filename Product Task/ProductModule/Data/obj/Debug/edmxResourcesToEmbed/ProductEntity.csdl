@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProductDBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="ProductDBEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="Sp_DeleteProduct" ReturnType="Collection(Boolean)">
+      <Parameter Name="Pid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <EntitySet Name="Products" EntityType="ProductDBModel.Product" />
+    <FunctionImport Name="Sp_SaveProduct" ReturnType="Collection(Boolean)">
+      <Parameter Name="ItemName" Mode="In" Type="String" />
+      <Parameter Name="Description" Mode="In" Type="String" />
+      <Parameter Name="Price" Mode="In" Type="Decimal" />
+      <Parameter Name="Quantity" Mode="In" Type="Int32" />
+      <Parameter Name="Tax" Mode="In" Type="Int32" />
+      <Parameter Name="Status" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_UpdateProductDtls" ReturnType="Collection(Boolean)">
+      <Parameter Name="ItemId" Mode="In" Type="Int32" />
+      <Parameter Name="ItemName" Mode="In" Type="String" />
+      <Parameter Name="Descriptions" Mode="In" Type="String" />
+      <Parameter Name="Price" Mode="In" Type="Decimal" />
+      <Parameter Name="Quantity" Mode="In" Type="Int32" />
+      <Parameter Name="Tax" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="Sp_GetProductDetails" ReturnType="Collection(ProductDBModel.Sp_GetProductDetails_Result)" />
+  </EntityContainer>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Type="Int32" Name="ItemId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="ItemName" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="Descriptions" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="Price" Precision="18" Scale="0" />
+    <Property Type="Int32" Name="Quantity" />
+    <Property Type="Int32" Name="Tax" />
+    <Property Type="Int32" Name="Status" />
+  </EntityType>
+  <ComplexType Name="Sp_GetProductDetails_Result">
+    <Property Type="Int32" Name="ItemId" Nullable="false" />
+    <Property Type="String" Name="ItemName" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="Descriptions" Nullable="true" />
+    <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="0" />
+    <Property Type="Int32" Name="Quantity" Nullable="true" />
+    <Property Type="Int32" Name="Tax" Nullable="true" />
+  </ComplexType>
+</Schema>

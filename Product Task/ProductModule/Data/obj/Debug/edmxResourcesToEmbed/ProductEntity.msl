@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ProductDBModelStoreContainer" CdmEntityContainer="ProductDBEntities">
+    <FunctionImportMapping FunctionImportName="Sp_DeleteProduct" FunctionName="ProductDBModel.Store.Sp_DeleteProduct" />
+    <EntitySetMapping Name="Products">
+      <EntityTypeMapping TypeName="ProductDBModel.Product">
+        <MappingFragment StoreEntitySet="Product">
+          <ScalarProperty Name="Status" ColumnName="Status" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="Sp_SaveProduct" FunctionName="ProductDBModel.Store.Sp_SaveProduct" />
+    <FunctionImportMapping FunctionImportName="Sp_UpdateProductDtls" FunctionName="ProductDBModel.Store.Sp_UpdateProductDtls" />
+    <FunctionImportMapping FunctionImportName="Sp_GetProductDetails" FunctionName="ProductDBModel.Store.Sp_GetProductDetails">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="ProductDBModel.Sp_GetProductDetails_Result">
+          <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+          <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+          <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+          <ScalarProperty Name="Tax" ColumnName="Tax" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

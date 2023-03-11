@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ProductDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ProductDBModelStoreContainer">
+    <EntitySet Name="Product" EntityType="ProductDBModel.Store.Product" store:Type="Tables" Schema="dbo" />
+  </EntityContainer>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="ItemId" />
+    </Key>
+    <Property Name="ItemId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ItemName" Type="nvarchar" MaxLength="50" />
+    <Property Name="Descriptions" Type="nvarchar(max)" />
+    <Property Name="Price" Type="decimal" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="Tax" Type="int" />
+    <Property Name="Status" Type="int" />
+  </EntityType>
+  <Function Name="Sp_DeleteProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Pid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Sp_GetProductDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="Sp_SaveProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ItemName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Price" Type="decimal" Mode="In" />
+    <Parameter Name="Quantity" Type="int" Mode="In" />
+    <Parameter Name="Tax" Type="int" Mode="In" />
+    <Parameter Name="Status" Type="int" Mode="In" />
+  </Function>
+  <Function Name="Sp_UpdateProductDtls" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="ItemId" Type="int" Mode="In" />
+    <Parameter Name="ItemName" Type="nvarchar" Mode="In" />
+    <Parameter Name="Descriptions" Type="nvarchar(max)" Mode="In" />
+    <Parameter Name="Price" Type="decimal" Mode="In" />
+    <Parameter Name="Quantity" Type="int" Mode="In" />
+    <Parameter Name="Tax" Type="int" Mode="In" />
+  </Function>
+</Schema>

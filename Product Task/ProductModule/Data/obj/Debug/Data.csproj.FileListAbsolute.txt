@@ -1,0 +1,12 @@
+E:\Product Task\ProductModule\Data\bin\Debug\Data.dll.config
+E:\Product Task\ProductModule\Data\bin\Debug\Data.dll
+E:\Product Task\ProductModule\Data\bin\Debug\Data.pdb
+E:\Product Task\ProductModule\Data\obj\Debug\Data.dll
+E:\Product Task\ProductModule\Data\obj\Debug\Data.pdb
+E:\Product Task\ProductModule\Data\obj\Debug\Data.csprojResolveAssemblyReference.cache
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Data\bin\Debug\Data.dll.config
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Data\bin\Debug\Data.dll
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Data\bin\Debug\Data.pdb
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Data\obj\Debug\Data.csproj.CoreCompileInputs.cache
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Data\obj\Debug\Data.dll
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Data\obj\Debug\Data.pdb

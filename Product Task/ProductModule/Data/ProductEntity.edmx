@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ProductDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="ProductDBModelStoreContainer">
+          <EntitySet Name="Product" EntityType="ProductDBModel.Store.Product" store:Type="Tables" Schema="dbo" />
+        </EntityContainer>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Name="ItemId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="ItemName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Descriptions" Type="nvarchar(max)" />
+          <Property Name="Price" Type="decimal" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Tax" Type="int" />
+          <Property Name="Status" Type="int" />
+        </EntityType>
+        <Function Name="Sp_DeleteProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Pid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_GetProductDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="Sp_SaveProduct" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ItemName" Type="nvarchar" Mode="In" />
+          <Parameter Name="Description" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Price" Type="decimal" Mode="In" />
+          <Parameter Name="Quantity" Type="int" Mode="In" />
+          <Parameter Name="Tax" Type="int" Mode="In" />
+          <Parameter Name="Status" Type="int" Mode="In" />
+        </Function>
+        <Function Name="Sp_UpdateProductDtls" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ItemId" Type="int" Mode="In" />
+          <Parameter Name="ItemName" Type="nvarchar" Mode="In" />
+          <Parameter Name="Descriptions" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="Price" Type="decimal" Mode="In" />
+          <Parameter Name="Quantity" Type="int" Mode="In" />
+          <Parameter Name="Tax" Type="int" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ProductDBModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ProductDBEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="Sp_DeleteProduct" ReturnType="Collection(Boolean)">
+          <Parameter Name="Pid" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="Products" EntityType="ProductDBModel.Product" />
+          <FunctionImport Name="Sp_SaveProduct" ReturnType="Collection(Boolean)">
+            <Parameter Name="ItemName" Mode="In" Type="String" />
+            <Parameter Name="Description" Mode="In" Type="String" />
+            <Parameter Name="Price" Mode="In" Type="Decimal" />
+            <Parameter Name="Quantity" Mode="In" Type="Int32" />
+            <Parameter Name="Tax" Mode="In" Type="Int32" />
+            <Parameter Name="Status" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_UpdateProductDtls" ReturnType="Collection(Boolean)">
+            <Parameter Name="ItemId" Mode="In" Type="Int32" />
+            <Parameter Name="ItemName" Mode="In" Type="String" />
+            <Parameter Name="Descriptions" Mode="In" Type="String" />
+            <Parameter Name="Price" Mode="In" Type="Decimal" />
+            <Parameter Name="Quantity" Mode="In" Type="Int32" />
+            <Parameter Name="Tax" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="Sp_GetProductDetails" ReturnType="Collection(ProductDBModel.Sp_GetProductDetails_Result)" />
+        </EntityContainer>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="ItemId" />
+          </Key>
+          <Property Type="Int32" Name="ItemId" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="ItemName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Descriptions" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Decimal" Name="Price" Precision="18" Scale="0" />
+          <Property Type="Int32" Name="Quantity" />
+          <Property Type="Int32" Name="Tax" />
+          <Property Type="Int32" Name="Status" />
+        </EntityType>
+        <ComplexType Name="Sp_GetProductDetails_Result">
+          <Property Type="Int32" Name="ItemId" Nullable="false" />
+          <Property Type="String" Name="ItemName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Descriptions" Nullable="true" />
+          <Property Type="Decimal" Name="Price" Nullable="true" Precision="18" Scale="0" />
+          <Property Type="Int32" Name="Quantity" Nullable="true" />
+          <Property Type="Int32" Name="Tax" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ProductDBModelStoreContainer" CdmEntityContainer="ProductDBEntities">
+          <FunctionImportMapping FunctionImportName="Sp_DeleteProduct" FunctionName="ProductDBModel.Store.Sp_DeleteProduct" />
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="ProductDBModel.Product">
+              <MappingFragment StoreEntitySet="Product">
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="Sp_SaveProduct" FunctionName="ProductDBModel.Store.Sp_SaveProduct" />
+          <FunctionImportMapping FunctionImportName="Sp_UpdateProductDtls" FunctionName="ProductDBModel.Store.Sp_UpdateProductDtls" />
+          <FunctionImportMapping FunctionImportName="Sp_GetProductDetails" FunctionName="ProductDBModel.Store.Sp_GetProductDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ProductDBModel.Sp_GetProductDetails_Result">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="ProductEntity">
+        <EntityTypeShape EntityType="ProductDBModel.Product" Width="1.5" PointX="0.75" PointY="0.75" Height="2.3648893229166665" />
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

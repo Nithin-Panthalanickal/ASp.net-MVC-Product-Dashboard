@@ -1,0 +1,17 @@
+E:\Product Task\ProductModule\Business\obj\Debug\Business.csprojResolveAssemblyReference.cache
+E:\Product Task\ProductModule\Business\bin\Debug\Business.dll
+E:\Product Task\ProductModule\Business\bin\Debug\Business.pdb
+E:\Product Task\ProductModule\Business\bin\Debug\Data.dll
+E:\Product Task\ProductModule\Business\bin\Debug\Data.pdb
+E:\Product Task\ProductModule\Business\obj\Debug\Business.dll
+E:\Product Task\ProductModule\Business\obj\Debug\Business.pdb
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Business\bin\Debug\Business.dll
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Business\bin\Debug\Business.pdb
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Business\bin\Debug\Data.dll
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Business\bin\Debug\Data.pdb
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Business\bin\Debug\Data.dll.config
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Business\obj\Debug\Business.csproj.AssemblyReference.cache
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Business\obj\Debug\Business.csproj.CoreCompileInputs.cache
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Business\obj\Debug\Business.csproj.CopyComplete
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Business\obj\Debug\Business.dll
+C:\Nithin\My Works\Asp.Net MVC\Product Task\ProductModule\Business\obj\Debug\Business.pdb
